@@ -1,14 +1,16 @@
 import { usePreload } from 'lingo3d-react'
 import './App.css'
 import TopItem from './components/TopItem';
-// import Plane from './scenes/Plane'
 import MainWorld from './scenes/MainWorld';
+import { useState } from 'react';
 
 const App = () => {
   const progress = usePreload(
     ['bot.fbx', 'env.hdr', 'falling.fbx', 'gallery.glb', 'idle.fbx', 'pattern.jpeg', 'running.fbx'],
     '1.2mb'
   )
+
+  const [nowSence, setNowSence] = useState(0)
 
   if (progress < 100)
     return (
@@ -19,8 +21,8 @@ const App = () => {
 
   return (
     <>
-      <TopItem></TopItem>
-      <MainWorld />
+      <TopItem setNowSence={setNowSence} />
+      <MainWorld nowSence={nowSence} />
     </>
   )
 }

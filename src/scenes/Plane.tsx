@@ -11,24 +11,31 @@ videoTe.src = '../../public/movie.mp4'
 
 const Plane = ({handleCameraUp}:any) => {
   const videoRef = useRef(null)
-  const [mouseOver, setMouseOver] = useState(false)
-
   const [bake0Over, setBake0Over] = useState(false)
-
-
-  const onClick = () => {
-    console.log('click')
-  }
-
-  const onEvent = () => {
-    setMouseOver(true)
-    handleCameraUp(true)
-    videoTe.play()
-  }
 
   const [R, setR] = useState(0)
   const [timer, setTimer] = useState(0)
   let temp = 0
+
+  const onBake0Over = () => {
+    setBake0Over(true)
+    onMouseOver()
+    videoTe.play()
+  }
+
+  const onBake0Out = () => {
+    setBake0Over(false)
+    onMouseOut()
+    videoTe.pause()
+  }
+
+  const onMouseOver = () => {
+    handleCameraUp(true)
+  }
+
+  const onMouseOut = () => {
+    handleCameraUp(false)
+  }
 
   const mouseOverRotation = () => {
     if (timer !== 0) return
@@ -54,18 +61,14 @@ const Plane = ({handleCameraUp}:any) => {
         ref={videoRef}
         name="Object009_propinquity manual bake_0"
         // texture={videoTe}
-        // texture="movie.mp4"
-        outline={mouseOver}
-        onMouseOver={onEvent}
-        onMouseOut={() => {
-          setMouseOver(false)
-          handleCameraUp(false)
-          videoTe.pause()
-        }}
+        texture="movie.mp4"
+        outline={bake0Over}
+        onMouseOver={onBake0Over}
+        onMouseOut={onBake0Out}
       >
-        {mouseOver && (
+        {bake0Over && (
           <HTML>
-            <div style={{ color: 'white' }} onClick={onClick}>
+            <div style={{ color: 'white' }}>
               <AnimText style={{ fontWeight: 'bold', fontSize: 20 }} duration={1000}>
                 Artwork Title
               </AnimText>

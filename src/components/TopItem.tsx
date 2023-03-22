@@ -1,8 +1,9 @@
 import { useState } from 'react'
 
-const TopItem = () => {
+const TopItem = ({setNowSence}:any) => {
   const onChangeScene = (index: any) => {
     console.log(index)
+    setNowSence(index)
   }
 
   return (

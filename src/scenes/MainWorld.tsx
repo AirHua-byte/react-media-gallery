@@ -1,4 +1,4 @@
-import { useRef,useEffect,useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useMachine } from '@xstate/react'
 import {
   Find,
@@ -16,13 +16,19 @@ import {
 import poseMachine from '../stateMachines/poseMachine'
 import AnimText from '@lincode/react-anim-text'
 import Plane from './Plane'
+import Video from './Video'
+import Audio from './Audio'
 
 const videoTe = document.createElement('video')
-  videoTe.src = '../../public/movie.mp4'
+videoTe.src = '../../public/movie.mp4'
 
-const MainWorld = () => {
+const MainWorld = ({ nowSence }: any) => {
+  console.log(nowSence, '----------')
   const botRef = useRef<types.Model>(null)
-  const videoRef = useRef(null)
+  const [botX, setBotX] = useState(200)
+  const [botY, setBotY] = useState(0)
+  const [botZ, setBotZ] = useState(0)
+  const [show,setShow]=useState(true)
 
   const [pose, sendPose] = useMachine(poseMachine, {
     actions: {
@@ -59,13 +65,34 @@ const MainWorld = () => {
     setCameraUp(status)
   }
 
+  const onKeyPress = (key: string) => {
+    if (key === 'w') {
+      sendPose('KEY_W_DOWN')
+      botRef.current?.moveForward(-10)
+    } else if (key === 'Space') {
+      sendPose('KEY_SPACE_DOWN')
+    }
+  }
 
-  // useEffect(() => {
-  //   console.log('update', videoRef)
-  //   // clearInterval(timer)
-  // }, [R])
+  const onKeyUp = (key: string) => {
+    if (key === 'w') {
+      sendPose('KEY_W_UP')
+    }
+  }
 
-  
+  const Sences = [
+    <Video handleCameraUp={handleCameraUp}></Video>,
+    <Plane handleCameraUp={handleCameraUp}></Plane>,
+    <Audio handleCameraUp={handleCameraUp}></Audio>
+  ]
+
+  useEffect(() => {
+    console.log('update pos',botRef.current)
+    setShow(false)
+    setTimeout(() => {
+      setShow(true)
+    },800)
+  },[nowSence])
 
   return (
     <div>
@@ -83,13 +110,9 @@ const MainWorld = () => {
         outlinePattern="pattern.jpeg"
         repulsion={1}
       >
+        {Sences[nowSence]}
         {
-          <HTML>
-            <div className="test1"></div>
-          </HTML>
-        }
-        <Plane handleCameraUp={handleCameraUp}></Plane>
-        <ThirdPersonCamera
+          show&&<ThirdPersonCamera
           mouseControl
           active
           innerY={ySpring}
@@ -115,16 +138,10 @@ const MainWorld = () => {
             pbr
           />
         </ThirdPersonCamera>
+        }
         <Keyboard
-          onKeyPress={key => {
-            if (key === 'w') {
-              sendPose('KEY_W_DOWN')
-              botRef.current?.moveForward(-10)
-            } else if (key === 'Space') sendPose('KEY_SPACE_DOWN')
-          }}
-          onKeyUp={key => {
-            if (key === 'w') sendPose('KEY_W_UP')
-          }}
+          onKeyPress={onKeyPress}
+          onKeyUp={onKeyUp}
         />
       </World>
       <Reticle color="white" variant={7} />
