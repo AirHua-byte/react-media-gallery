@@ -21,14 +21,15 @@ import Audio from './Audio'
 
 const videoTe = document.createElement('video')
 videoTe.src = '../../public/movie.mp4'
+type Test = types.Model & {
+  velocity: any
+  onLoop: any
+}
 
 const MainWorld = ({ nowSence }: any) => {
   console.log(nowSence, '----------')
-  const botRef = useRef<types.Model>(null)
-  const [botX, setBotX] = useState(200)
-  const [botY, setBotY] = useState(0)
-  const [botZ, setBotZ] = useState(0)
-  const [show,setShow]=useState(true)
+  const botRef = useRef<Test>(null)
+  const [show, setShow] = useState(true)
 
   const [pose, sendPose] = useMachine(poseMachine, {
     actions: {
@@ -87,12 +88,12 @@ const MainWorld = ({ nowSence }: any) => {
   ]
 
   useEffect(() => {
-    console.log('update pos',botRef.current)
+    console.log('update pos', botRef.current)
     setShow(false)
     setTimeout(() => {
       setShow(true)
-    },800)
-  },[nowSence])
+    }, 800)
+  }, [nowSence])
 
   return (
     <div>
@@ -111,38 +112,35 @@ const MainWorld = ({ nowSence }: any) => {
         repulsion={1}
       >
         {Sences[nowSence]}
-        {
-          show&&<ThirdPersonCamera
-          mouseControl
-          active
-          innerY={ySpring}
-          innerZ={zSpring}
-          innerX={xSpring}
-          fov={fov}
-        >
-          <Model
-            src="bot.fbx"
-            ref={botRef}
-            physics="character"
-            animations={{
-              idle: 'idle.fbx',
-              running: 'running.fbx',
-              jumping: 'falling.fbx'
-            }}
-            animation={pose.value as any}
-            width={50}
-            depth={50}
-            x={200}
-            y={0}
-            z={0}
-            pbr
-          />
-        </ThirdPersonCamera>
-        }
-        <Keyboard
-          onKeyPress={onKeyPress}
-          onKeyUp={onKeyUp}
-        />
+        {show && (
+          <ThirdPersonCamera
+            mouseControl
+            active
+            innerY={ySpring}
+            innerZ={zSpring}
+            innerX={xSpring}
+            fov={fov}
+          >
+            <Model
+              src="bot.fbx"
+              ref={botRef}
+              physics="character"
+              animations={{
+                idle: 'idle.fbx',
+                running: 'running.fbx',
+                jumping: 'falling.fbx'
+              }}
+              animation={pose.value as any}
+              width={50}
+              depth={50}
+              x={200}
+              y={0}
+              z={0}
+              pbr
+            />
+          </ThirdPersonCamera>
+        )}
+        <Keyboard onKeyPress={onKeyPress} onKeyUp={onKeyUp} />
       </World>
       <Reticle color="white" variant={7} />
     </div>

@@ -1,15 +1,12 @@
 import { useRef, useEffect, useState } from 'react'
-import {
-  Find,
-  HTML,
-  Model,
-} from 'lingo3d-react'
+import { Find, HTML, Model } from 'lingo3d-react'
 import AnimText from '@lincode/react-anim-text'
+import { cardInfos } from '../constants'
 
 const videoTe = document.createElement('video')
 videoTe.src = '../../public/movie.mp4'
 
-const Plane = ({handleCameraUp}:any) => {
+const Plane = ({ handleCameraUp }: any) => {
   const videoRef = useRef(null)
   const [bake0Over, setBake0Over] = useState(false)
 
@@ -17,13 +14,15 @@ const Plane = ({handleCameraUp}:any) => {
   const [timer, setTimer] = useState(0)
   let temp = 0
 
-  const onBake0Over = () => {
+  const onBake0Over = (item: any) => {
+    item.hover = true
     setBake0Over(true)
     onMouseOver()
     videoTe.play()
   }
 
-  const onBake0Out = () => {
+  const onBake0Out = (item: any) => {
+    item.hover = false
     setBake0Over(false)
     onMouseOut()
     videoTe.pause()
@@ -57,7 +56,34 @@ const Plane = ({handleCameraUp}:any) => {
 
   return (
     <Model src="scene.gltf" scale={5} physics="map" animationPaused={false}>
-      <Find
+      {cardInfos.map(item => {
+        return (
+          <Find
+            ref={videoRef}
+            name={item.name}
+            outline={item.hover}
+            onMouseOver={() => {
+              onBake0Over(item)
+            }}
+            onMouseOut={() => {
+              onBake0Out(item)
+            }}
+            key={item.name}
+          >
+            {item.hover && (
+              <HTML>
+                <div style={{ color: 'white' }}>
+                  <AnimText style={{ fontWeight: 'bold', fontSize: 20 }} duration={1000}>
+                    {item.title}
+                  </AnimText>
+                  <AnimText duration={1000}>{item.content}</AnimText>
+                </div>
+              </HTML>
+            )}
+          </Find>
+        )
+      })}
+      {/* <Find
         ref={videoRef}
         name="Object009_propinquity manual bake_0"
         // texture={videoTe}
@@ -76,7 +102,7 @@ const Plane = ({handleCameraUp}:any) => {
             </div>
           </HTML>
         )}
-      </Find>
+      </Find> */}
       <Find
         rotation={R}
         name="water fountain_Material #4195_0"
