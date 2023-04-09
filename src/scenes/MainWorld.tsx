@@ -18,6 +18,7 @@ import AnimText from '@lincode/react-anim-text'
 import Plane from './Plane'
 import Video from './Video'
 import Audio from './Audio'
+import BottomItem from '../components/BottomItem'
 
 const videoTe = document.createElement('video')
 videoTe.src = '../../public/movie.mp4'
@@ -82,8 +83,8 @@ const MainWorld = ({ nowSence }: any) => {
   }
 
   const Sences = [
-    <Video handleCameraUp={handleCameraUp}></Video>,
     <Plane handleCameraUp={handleCameraUp}></Plane>,
+    <Video handleCameraUp={handleCameraUp}></Video>,
     <Audio handleCameraUp={handleCameraUp}></Audio>
   ]
 
@@ -128,7 +129,10 @@ const MainWorld = ({ nowSence }: any) => {
               animations={{
                 idle: 'idle.fbx',
                 running: 'running.fbx',
-                jumping: 'falling.fbx'
+                jumping: 'falling.fbx',
+                waving: 'waving.fbx',
+                dance: 'dance.fbx',
+                sitting: 'sitting.fbx'
               }}
               animation={pose.value as any}
               width={50}
@@ -143,6 +147,8 @@ const MainWorld = ({ nowSence }: any) => {
         <Keyboard onKeyPress={onKeyPress} onKeyUp={onKeyUp} />
       </World>
       <Reticle color="white" variant={7} />
+
+      <BottomItem sendPose={sendPose}></BottomItem>
     </div>
   )
 }

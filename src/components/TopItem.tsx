@@ -1,13 +1,13 @@
 import { useState } from 'react'
 
-const TopItem = ({setNowSence}:any) => {
+const TopItem = ({ setNowSence }: any) => {
   const onChangeScene = (index: any) => {
     console.log(index)
     setNowSence(index)
   }
 
   return (
-    <div className="flex content-center">
+    <div className="flex content-center mt-20">
       {[0, 1, 2].map(value => {
         return (
           <div

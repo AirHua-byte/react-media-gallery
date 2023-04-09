@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { usePreload } from 'lingo3d-react'
 import TopItem from '../components/TopItem'
 import MainWorld from '../scenes/MainWorld'
+import BottomItem from '../components/BottomItem'
 
 const Gallery = () => {
   const progress = usePreload(
@@ -17,6 +18,11 @@ const Gallery = () => {
         loading {Math.floor(progress)}%
       </div>
     )
+  // setTimeout(() => {
+  // }, 5000)
+  if (progress === 100) {
+    window.parent.postMessage('true', '*')
+  }
 
   return (
     <>
