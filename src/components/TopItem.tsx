@@ -7,16 +7,15 @@ const TopItem = ({ setNowSence }: any) => {
   }
 
   return (
-    <div className="flex content-center mt-20">
-      {[0, 1, 2].map(value => {
+    <div className="flex content-center mt-14">
+      {['媒体展厅1', '媒体展厅2'].map((value, index) => {
         return (
-          <div
-            onClick={() => onChangeScene(value)}
-            className="bg-opacity-10 mx-4 w-12 h-12 bg-blue-100 rounded-xl shadow flex justify-center"
-            key={value}
+          <button
+            onClick={() => onChangeScene(index)}
+            className="w-100 h-50 p-2 text-gray-50 mx-2 rounded-xl bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50"
           >
-            <p>{value}</p>
-          </div>
+            {value}
+          </button>
         )
       })}
     </div>

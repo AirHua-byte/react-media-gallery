@@ -97,7 +97,7 @@ const MainWorld = ({ nowSence }: any) => {
   }, [nowSence])
 
   return (
-    <div>
+    <>
       <World
         style={{ zIndex: -1 }}
         defaultLight="env.hdr"
@@ -149,7 +149,7 @@ const MainWorld = ({ nowSence }: any) => {
       <Reticle color="white" variant={7} />
 
       <BottomItem sendPose={sendPose}></BottomItem>
-    </div>
+    </>
   )
 }
 

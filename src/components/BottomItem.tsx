@@ -13,16 +13,15 @@ const BottomItem = ({ sendPose }: any) => {
   }
 
   return (
-    <div className="flex content-center left-0">
-      {[0, 1, 2].map(value => {
+    <div className="flex content-center absolute bottom-10 right-10">
+      {['打招呼', '跳段舞', '休息一下'].map((value, index) => {
         return (
-          <div
-            onClick={() => onSendPose(value)}
-            className="bg-opacity-10 mx-4 w-12 h-12 bg-blue-100 rounded-xl shadow flex justify-center"
-            key={value}
+          <button
+            onClick={() => onSendPose(index)}
+            className="w-100 h-50 p-2 text-gray-50 mx-2 rounded-xl bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50"
           >
-            <p>{value}</p>
-          </div>
+            {value}
+          </button>
         )
       })}
     </div>
